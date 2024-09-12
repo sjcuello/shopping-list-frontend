@@ -4,6 +4,7 @@ import StartIcon from '@mui/icons-material/Start';
 import { useFormik } from 'formik';
 import { itemValidationSchema } from "../../validations/item.validation";
 import styles from './styles.module.css';
+import { CssVarsProvider } from '@mui/joy/styles';
 
 interface DrawerProps {
   isDrawerOpen: boolean;
@@ -74,23 +75,25 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
           />
-          <Textarea
-            id="description"
-            name="description"
-            minRows={2}
-            size="lg"
-            variant="outlined"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            placeholder="Description"
-            endDecorator={
-              <Typography>
-                {formik.values.description.length} /100
-              </Typography>
-            }
-          />
+          <CssVarsProvider>
+            <Textarea
+              id="description"
+              name="description"
+              minRows={2}
+              size="lg"
+              variant="outlined"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              placeholder="Description"
+              endDecorator={
+                <p>
+                  {formik.values.description.length} /100
+                </p>
+              }
+            />
+          </CssVarsProvider>
           <Select
             id="elements"
             name="elements"
