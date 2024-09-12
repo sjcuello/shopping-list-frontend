@@ -2,22 +2,21 @@
   display: flex;
 }
 
-.appBar {}
+.appBar {
+
+  background-color: aqua;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
 
 .menuIcon {
   margin-right: 8px;
   display: none;
 }
 
-.menuIcon {
-  display: none;
-}
-
-@media (max-width: 600px) {
-  .menuIcon {
-    display: block;
-  }
-}
 
 .title {
   flex-grow: 1;
@@ -32,17 +31,4 @@
 
 .navButton {
   color: #fff;
-}
-
-
-.drawer {
-  text-align: center;
-}
-
-.drawerTitle {
-  margin: 16px 0;
-}
-
-.drawerButton {
-  text-align: center;
 }

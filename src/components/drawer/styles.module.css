@@ -1,0 +1,19 @@
+.drawer {
+  width: 30vw;
+  height: 100vh;
+}
+
+.topContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.drawerTitle {
+  text-transform: uppercase;
+}
+
+.drawerButton {
+  text-align: center;
+}
