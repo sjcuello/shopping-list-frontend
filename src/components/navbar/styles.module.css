@@ -1,0 +1,48 @@
+.headerContainer {
+  display: flex;
+}
+
+.appBar {}
+
+.menuIcon {
+  margin-right: 8px;
+  display: none;
+}
+
+.menuIcon {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .menuIcon {
+    display: block;
+  }
+}
+
+.title {
+  flex-grow: 1;
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .title {
+    display: block;
+  }
+}
+
+.navButton {
+  color: #fff;
+}
+
+
+.drawer {
+  text-align: center;
+}
+
+.drawerTitle {
+  margin: 16px 0;
+}
+
+.drawerButton {
+  text-align: center;
+}
