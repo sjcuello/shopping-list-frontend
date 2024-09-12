@@ -34,15 +34,6 @@
   color: #fff;
 }
 
-.drawerContainer {
-  display: block;
-}
-
-@media (min-width: 600px) {
-  .drawerContainer {
-    display: none;
-  }
-}
 
 .drawer {
   text-align: center;
