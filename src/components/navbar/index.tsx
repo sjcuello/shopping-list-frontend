@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
   return (
     <Box className={styles.headerContainer}>
-      <AppBar component="nav" className={styles.appBar}>
+      <AppBar className={styles.appBar}>
         <Toolbar className={styles.toolbar}>
           <Typography
             variant="h6"

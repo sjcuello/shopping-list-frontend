@@ -1,0 +1,25 @@
+:root {
+  --sm: 576px;
+  --md: 768px;
+  --lg: 992px;
+  --xl: 1200px;
+}
+
+.boxed-content {
+  padding: 0 calc(50vw - 640px);
+}
+
+.boxed-content-left {
+  padding-left: calc(50vw - 640px);
+}
+
+
+@media (min-width: 500px) and (max-width: 1023px) {
+  .boxed-content {
+    padding: 0 calc(50vw - 250px);
+  }
+
+  .boxed-content-left {
+    padding-left: calc(50vw - 250px);
+  }
+}
