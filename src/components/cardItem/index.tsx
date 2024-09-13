@@ -1,6 +1,11 @@
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { Card } from '../../interfaces';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import {
+  EditOutlined as EditIcon,
+  DeleteOutlined as DeleteIcon,
+  CheckBoxOutlineBlank as CheckBoxBlankIcon,
+  CheckBox as CheckBoxIcon
+} from '@mui/icons-material';
 import styles from './styles.module.css';
 
 interface CardProps {
@@ -15,28 +20,42 @@ const CardItem = ({ data }: CardProps) => {
 
   return (
     <Box className={styles.card}>
-      {data.isChecked ? 'Checked' : 'Not checked'}
-      <Box className={styles.dataContainer}>
-        <h1>{data.name} - {data.amount}</h1>
-        <p>{data.description}</p>
-      </Box>
+
       <IconButton
-        color="inherit"
+        color='info'
         aria-label="Edit"
         onClick={handleEdit}
         className={styles.menuIcon}
       >
-        <EditIcon />
+        {data.isChecked ? <CheckBoxIcon /> : <CheckBoxBlankIcon />}
       </IconButton>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDelete}
-        className={styles.menuIcon}
-      >
-        <DeleteIcon />
-      </IconButton>
+      <Box className={styles.content}>
+
+        <Box className={styles.dataContainer}>
+          <Typography variant="h3" color='info' className={styles.name}>{data.name} </Typography>
+          <Typography variant="h4" className={styles.description}>{data.description}</Typography>
+          <Typography variant="h6" className={styles.amount}>Amount: {data.amount}</Typography>
+        </Box>
+        <Box>
+
+          <IconButton
+            color="default"
+            aria-label="Edit"
+            onClick={handleEdit}
+            className={styles.menuIcon}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            color="default"
+            aria-label="Delete"
+            onClick={handleDelete}
+            className={styles.menuIcon}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </Box>
     </Box>
   )
 }

@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Container
       maxWidth={false}
-      className={styles.container} >
+      className={`${styles.container} boxed-content`} >
       {children}
     </Container>
   )
