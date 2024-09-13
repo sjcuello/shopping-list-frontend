@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './styles.module.css';
 import Drawer from '../drawer';
 
-const Header: React.FC = () => {
+const Navbar: React.FC = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
           <Typography
             variant="h6"
             component="div"
-            className="title"
+            className={styles.title}
           >
             Shopping List
           </Typography>
@@ -39,4 +39,4 @@ const Header: React.FC = () => {
   )
 }
 
-export default Header;
+export default Navbar;
