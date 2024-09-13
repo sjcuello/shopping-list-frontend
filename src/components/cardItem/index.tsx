@@ -14,30 +14,29 @@ interface CardProps {
 
 const CardItem = ({ data }: CardProps) => {
 
+  const { amount, description, isChecked, name } = data;
+
   const handleEdit = () => { }
 
   const handleDelete = () => { }
 
   return (
     <Box className={styles.card}>
-
       <IconButton
         color='info'
         aria-label="Edit"
         onClick={handleEdit}
         className={styles.menuIcon}
       >
-        {data.isChecked ? <CheckBoxIcon /> : <CheckBoxBlankIcon />}
+        {isChecked ? <CheckBoxIcon /> : <CheckBoxBlankIcon />}
       </IconButton>
       <Box className={styles.content}>
-
         <Box className={styles.dataContainer}>
-          <Typography variant="h3" color='info' className={styles.name}>{data.name} </Typography>
-          <Typography variant="h4" className={styles.description}>{data.description}</Typography>
-          <Typography variant="h6" className={styles.amount}>Amount: {data.amount}</Typography>
+          <Typography variant="h4" color='info' fontWeight="500" className={styles.name}>{name} </Typography>
+          <Typography variant="h6" className={styles.description}>{description}</Typography>
+          <Typography variant="body2" className={styles.amount}>Amount: {amount}</Typography>
         </Box>
         <Box>
-
           <IconButton
             color="default"
             aria-label="Edit"

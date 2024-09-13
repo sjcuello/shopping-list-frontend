@@ -1,9 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import CardItem from '../cardItem';
 import styles from './styles.module.css';
-
-// interface CardsContainerProps {
-// }
 
 const CardsContainer = () => {
 
@@ -39,10 +36,19 @@ const CardsContainer = () => {
   ]
 
   return (
-    <Box className={ styles.container}>
-      {mockData.map((card) => (
-        <CardItem key={card.id} data={card} />
-      ))}
+    <Box className={styles.container}>
+      <Box className={styles.titleContainer}>
+        <Typography variant='h2'>Your Items</Typography>
+        <Button
+          variant="contained"
+          color='primary'
+          className={styles.button}>Add Item</Button>
+      </Box>
+      <Box className={styles.cardContainer}>
+        {mockData.map((card) => (
+          <CardItem key={card.id} data={card} />
+        ))}
+      </Box>
     </Box>
   )
 }

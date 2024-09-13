@@ -13,6 +13,8 @@ const theme = createTheme({
     h4: { ...dosisFont, fontSize: '1.25rem' },
     h5: { ...dosisFont, fontSize: '1.125rem' },
     h6: { ...dosisFont, fontSize: '1rem' },
+    body1: { ...dosisFont, fontSize: '1rem' },
+    body2: { ...dosisFont, fontSize: '0.875rem' },
   },
   components: {
     MuiButton: {

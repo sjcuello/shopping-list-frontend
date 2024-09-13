@@ -7,6 +7,7 @@
   align-items: center;
   padding: 1.5rem 1rem;
   border-radius: 4px;
+  gap: 1.5rem
 }
 
 .content {
@@ -25,7 +26,6 @@
 }
 
 .name {
-  font-weight: 500 !important;
   padding: 0;
 }
 
@@ -35,6 +35,6 @@
 }
 
 .amount {
-  color: #b1b1b1;
+  color: #929292;
   padding: 0;
 }
