@@ -68,7 +68,7 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
             fullWidth
             id="name"
             name="name"
-            label="name"
+            label="Item Name"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
