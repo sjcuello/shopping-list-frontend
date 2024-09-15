@@ -5,6 +5,9 @@ import { useFormik } from 'formik';
 import { itemValidationSchema } from "../../validations/item.validation";
 import styles from './styles.module.css';
 import { CssVarsProvider } from '@mui/joy/styles';
+import { useAppDispatch } from '../../redux';
+// import { ItemForm } from "../../interfaces";
+import { addItem } from "../../redux/items";
 
 interface DrawerProps {
   isDrawerOpen: boolean;
@@ -13,17 +16,18 @@ interface DrawerProps {
 
 const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
 
+  const dispatch = useAppDispatch();
   const range = Array.from({ length: 10 }, (_, i) => i + 1);
 
   const formik = useFormik({
     initialValues: {
       name: '',
       description: '',
-      elements: 0,
+      amount: 0,
     },
     validationSchema: itemValidationSchema,
     onSubmit: (values) => {
-      console.log('values :>> ', values); // TODO: send to API
+      dispatch(addItem(values));
     },
     onReset: handleDrawerToggle
   });
@@ -67,66 +71,64 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
               Add your new item bellow
             </Typography>
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset} className={styles.form}>
-              <TextField
-                fullWidth
-                id="name"
-                name="name"
-                label="Item Name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-              <CssVarsProvider>
-                <Textarea
-                  id="description"
-                  name="description"
-                  minRows={2}
-                  size="lg"
-                  variant="outlined"
-                  value={formik.values.description}
+              <Box className={styles.formInputs}>
+                <TextField
+                  fullWidth
+                  id="name"
+                  name="name"
+                  label="Item Name"
+                  value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  placeholder="Description"
-                  endDecorator={
-                    <p>
-                      {formik.values.description.length} /100
-                    </p>
-                  }
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                 />
-              </CssVarsProvider>
-              <Select
-                id="elements"
-                name="elements"
-                value={formik.values.elements}
-                onChange={formik.handleChange}
-                label="Select a Number"
-                placeholder="How many elements?"
-              >
-                <MenuItem value={0}>0</MenuItem>
-                {range.map((number) => (
-                  <MenuItem key={number} value={number}>
-                    {number}
-                  </MenuItem>
-                ))}
-              </Select>
+                <CssVarsProvider>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    minRows={2}
+                    size="lg"
+                    variant="outlined"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    placeholder="Description"
+                    endDecorator={
+                      <p>
+                        {formik.values.description.length} /100
+                      </p>
+                    }
+                  />
+                </CssVarsProvider>
+                <Select
+                  id="amount"
+                  name="amount"
+                  value={formik.values.amount}
+                  onChange={formik.handleChange}
+                  label="Select a Number"
+                  placeholder="How many items?"
+                >
+                  <MenuItem value={0}>0</MenuItem>
+                  {range.map((number) => (
+                    <MenuItem key={number} value={number}>
+                      {number}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+              <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
+                <Button color="inherit" variant="text" type="reset">
+                  Cancel
+                </Button>
+                <Button color="primary" variant="contained" type="submit">
+                  Add new item
+                </Button>
+              </Box>
             </form>
           </Box>
-
-          <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
-            <Button color="inherit" variant="text" type="reset">
-              Cancel
-            </Button>
-            <Button color="primary" variant="contained" type="submit">
-              Add new item
-            </Button>
-
-          </Box>
-
         </Box>
-
       </Box>
     </DrawerMUI >
   )

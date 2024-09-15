@@ -5,3 +5,9 @@ export interface Card {
   amount: number;
   isChecked: boolean;
 }
+
+export interface ItemForm { 
+  name: string;
+  description: string;
+  amount: number;
+}

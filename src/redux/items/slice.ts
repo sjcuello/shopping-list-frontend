@@ -28,7 +28,12 @@ export const itemsSlice = createSlice({
     setDeletedList: (state, action) => {
       state.deletedList = action.payload;
     },
-    updateItem: (state, action) => { 
+    addItem: (state, action) => {
+      const itemForm = action.payload;
+      const newItem: Card = { ...itemForm, id: state.itemList.length + 1, isChecked: false };
+      state.itemList.push(newItem);
+    },
+    updateItem: (state, action) => {
       const itemToUpdate = state.itemList.find((item) => item.id === action.payload.id);
       if (itemToUpdate) {
         itemToUpdate.name = action.payload.name;
@@ -37,21 +42,21 @@ export const itemsSlice = createSlice({
         itemToUpdate.isChecked = action.payload.isChecked;
       }
     },
-    deleteItem: (state, action) => { 
+    deleteItem: (state, action) => {
       const itemToDelete = state.itemList.find((item) => item.id === action.payload);
       if (itemToDelete) {
         state.deletedList.push(itemToDelete);
         state.itemList = state.itemList.filter((item) => item.id !== action.payload);
       }
     },
-    restoreItem: (state, action) => { 
+    restoreItem: (state, action) => {
       const itemToRestore = state.deletedList.find((item) => item.id === action.payload);
       if (itemToRestore) {
         state.itemList.push(itemToRestore);
         state.deletedList = state.deletedList.filter((item) => item.id !== action.payload);
       }
     },
-    checkItem: (state, action) => { 
+    checkItem: (state, action) => {
       const itemToCheck = state.itemList.find((item) => item.id === action.payload);
       if (itemToCheck) {
         itemToCheck.isChecked = !itemToCheck.isChecked;
@@ -63,6 +68,11 @@ export const itemsSlice = createSlice({
 export const {
   setItemList,
   setDeletedList,
+  addItem,
+  updateItem,
+  deleteItem,
+  restoreItem,
+  checkItem
 } = itemsSlice.actions;
 
 export const selectItemList = (state: RootState) => state.items.itemList;
