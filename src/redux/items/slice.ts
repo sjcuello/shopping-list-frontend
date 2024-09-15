@@ -29,15 +29,15 @@ export const itemsSlice = createSlice({
     setDeletedList: (state, action) => {
       state.deletedList = action.payload;
     },
-    updateItem: (state, action) => {
-      const itemToUpdate = state.itemList.data.find((item) => item.id === action.payload.id);
-      if (itemToUpdate) {
-        itemToUpdate.name = action.payload.name;
-        itemToUpdate.description = action.payload.description;
-        itemToUpdate.amount = action.payload.amount;
-        itemToUpdate.isChecked = action.payload.isChecked;
-      }
-    },
+    // updateItem: (state, action) => {
+    //   const itemToUpdate = state.itemList.data.find((item) => item.id === action.payload.id);
+    //   if (itemToUpdate) {
+    //     itemToUpdate.name = action.payload.name;
+    //     itemToUpdate.description = action.payload.description;
+    //     itemToUpdate.amount = action.payload.amount;
+    //     itemToUpdate.isChecked = action.payload.isChecked;
+    //   }
+    // },
     deleteItem: (state, action) => {
       const itemToDelete = state.itemList.data.find((item) => item.id === action.payload);
       if (itemToDelete) {
@@ -87,13 +87,29 @@ export const itemsSlice = createSlice({
         state.itemList.status = 'rejected';
         state.itemList.error = action.error.message || 'Failed to add item';
       })
+      .addCase(thunk.editItem.pending, (state) => {
+        state.itemList.status = 'pending';
+      })
+      .addCase(thunk.editItem.fulfilled, (state, action) => {
+        state.itemList.status = 'succeeded';
+        state.itemList.data = state.itemList.data.map((item) => {
+          if (item.id === action.payload.id) {
+            return action.payload;
+          }
+          return item;
+        });
+      })
+      .addCase(thunk.editItem.rejected, (state, action) => {
+        state.itemList.status = 'rejected';
+        state.itemList.error = action.error.message || 'Failed to edit item';
+      })
   },
 });
 
 export const {
   setItemList,
   setDeletedList,
-  updateItem,
+  // updateItem,
   deleteItem,
   restoreItem,
   checkItem
