@@ -1,11 +1,32 @@
 import { Box, Button, Typography } from '@mui/material';
 import CardItem from '../cardItem';
 import styles from './styles.module.css';
-import { selectItemList } from '../../redux/items';
-import { useSelector } from 'react-redux';
+import { fetchData, selectItemList } from '../../redux/items';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const CardsContainer = () => {
-  const itemList = useSelector(selectItemList);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<any>();
+  const { data, status, error } = useSelector(selectItemList);
+
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchData());
+    }
+  }, [status, dispatch]);
+
+  if (status === 'pending') {
+    // TODO
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'rejected') {
+    // TODO
+    return <div>Error: {error}</div>;
+  }
+
 
   return (
     <Box className={styles.container}>
@@ -17,7 +38,7 @@ const CardsContainer = () => {
           className={styles.button}>Add Item</Button>
       </Box>
       <Box className={styles.cardContainer}>
-        {itemList.data.map((item, index) => (
+        {data.map((item, index) => (
           <CardItem key={index} data={item} />
         ))}
       </Box>

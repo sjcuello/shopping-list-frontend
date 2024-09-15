@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { Card } from '../../interfaces';
+// import { createAppAsyncThunk } from '../thunk';
 
 type Status = 'idle' | 'pending' | 'succeeded' | 'rejected';
 
@@ -20,6 +21,15 @@ interface ItemsData {
   itemList: ItemsState
   deletedList: ItemsState;
 }
+
+export const fetchData = createAsyncThunk('data/fetchData', async () => {
+  const response = await fetch('http://localhost:3000/item');
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  console.log('response :>> ', response);
+  return response.json(); // Assumes the response is JSON
+})
 
 const initialState: ItemsData = {
   itemList: defaultState,
@@ -70,6 +80,24 @@ export const itemsSlice = createSlice({
         itemToCheck.isChecked = !itemToCheck.isChecked;
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchData.pending, (state) => {
+        state.itemList.status = 'pending';
+        state.deletedList.status = 'pending';
+      })
+      .addCase(fetchData.fulfilled, (state, action) => {
+        state.itemList.status = 'succeeded';
+        state.deletedList.status = 'succeeded';
+        state.itemList.data = action.payload;
+      })
+      .addCase(fetchData.rejected, (state, action) => {
+        state.itemList.status = 'rejected';
+        state.deletedList.status = 'rejected';
+        state.itemList.error = action.error.message || 'Failed to fetch data';
+        state.itemList.error = action.error.message || 'Failed to fetch data';
+      });
   },
 });
 
