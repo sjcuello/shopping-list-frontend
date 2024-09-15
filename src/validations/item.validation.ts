@@ -7,8 +7,8 @@ export const itemValidationSchema = yup.object({
   description: yup
     .string()
     .max(100, 'Description is too long. Max 100 characters'),
-  elements: yup
+  amount: yup
     .number()
-    .min(1, 'Number of elements is required')
-    .required(),
+    .moreThan(0, 'Number of elements must be greater than 0')
+    .required('Number of elements is required'),
 });

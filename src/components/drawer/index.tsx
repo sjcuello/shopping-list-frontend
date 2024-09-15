@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Drawer as DrawerMUI, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, Divider, Drawer as DrawerMUI, FormHelperText, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material"
 import Textarea from '@mui/joy/Textarea';
 import StartIcon from '@mui/icons-material/Start';
 import { useFormik } from 'formik';
@@ -29,7 +29,7 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
     onSubmit: (values) => {
       dispatch(addItem(values));
     },
-    onReset: handleDrawerToggle
+    onReset: handleDrawerToggle,
   });
 
   const container = window !== undefined ? () => window.document.body : undefined;
@@ -104,21 +104,27 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
                     }
                   />
                 </CssVarsProvider>
-                <Select
-                  id="amount"
-                  name="amount"
-                  value={formik.values.amount}
-                  onChange={formik.handleChange}
-                  label="Select a Number"
-                  placeholder="How many items?"
-                >
-                  <MenuItem value={0}>0</MenuItem>
-                  {range.map((number) => (
-                    <MenuItem key={number} value={number}>
-                      {number}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <Box className={styles.amountSelect}>
+                  <Select
+                    id="amount"
+                    name="amount"
+                    value={formik.values.amount}
+                    onChange={formik.handleChange}
+                    label="Select a Number"
+                    placeholder="How many items?"
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.amount && Boolean(formik.errors.amount)}
+                    style={{ width: '100%' }}
+                  >
+                    <MenuItem value={0}>0</MenuItem>
+                    {range.map((number) => (
+                      <MenuItem key={number} value={number}>
+                        {number}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {formik.touched.amount && formik.errors.amount && <FormHelperText error>{formik.errors.amount}</FormHelperText>}
+                </Box>
               </Box>
               <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
                 <Button color="inherit" variant="text" type="reset">
