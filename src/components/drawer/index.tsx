@@ -87,7 +87,7 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
                   <Textarea
                     id="description"
                     name="description"
-                    minRows={2}
+                    minRows={4}
                     size="lg"
                     variant="outlined"
                     value={formik.values.description}
@@ -96,9 +96,11 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
                     error={formik.touched.description && Boolean(formik.errors.description)}
                     placeholder="Description"
                     endDecorator={
-                      <p>
-                        {formik.values.description.length} /100
-                      </p>
+                      <Box className={styles.charCounter}>
+                        <p>
+                          {formik.values.description.length} /100
+                        </p>
+                      </Box>
                     }
                   />
                 </CssVarsProvider>
