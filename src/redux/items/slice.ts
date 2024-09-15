@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { Card, ItemsState } from '../../interfaces';
+import { ItemsState } from '../../interfaces';
 import thunk from './thunk';
 
 const defaultState: ItemsState = {
@@ -28,11 +28,6 @@ export const itemsSlice = createSlice({
     },
     setDeletedList: (state, action) => {
       state.deletedList = action.payload;
-    },
-    addItem: (state, action) => {
-      const itemForm = action.payload;
-      const newItem: Card = { ...itemForm, id: state.itemList.data.length + 1, isChecked: false };
-      state.itemList.data.push(newItem);
     },
     updateItem: (state, action) => {
       const itemToUpdate = state.itemList.data.find((item) => item.id === action.payload.id);
@@ -80,14 +75,24 @@ export const itemsSlice = createSlice({
         state.deletedList.status = 'rejected';
         state.itemList.error = action.error.message || 'Failed to fetch data';
         state.itemList.error = action.error.message || 'Failed to fetch data';
-      });
+      })
+      .addCase(thunk.addItem.pending, (state) => {
+        state.itemList.status = 'pending';
+      })
+      .addCase(thunk.addItem.fulfilled, (state, action) => {
+        state.itemList.status = 'succeeded';
+        state.itemList.data.push(action.payload);
+      })
+      .addCase(thunk.addItem.rejected, (state, action) => {
+        state.itemList.status = 'rejected';
+        state.itemList.error = action.error.message || 'Failed to add item';
+      })
   },
 });
 
 export const {
   setItemList,
   setDeletedList,
-  addItem,
   updateItem,
   deleteItem,
   restoreItem,

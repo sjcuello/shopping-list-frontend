@@ -7,8 +7,7 @@ import styles from './styles.module.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { useAppDispatch } from '../../redux';
 import { ItemForm } from "../../interfaces";
-import { addItem } from "../../redux/items";
-
+import { addItem } from '../../redux/items/thunk';
 interface DrawerProps {
   isDrawerOpen: boolean;
   handleDrawerToggle: () => void;
@@ -28,6 +27,8 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
     validationSchema: itemValidationSchema,
     onSubmit: (values: ItemForm) => {
       dispatch(addItem(values));
+      formik.resetForm();
+      handleDrawerToggle()
     },
     onReset: handleDrawerToggle,
   });
