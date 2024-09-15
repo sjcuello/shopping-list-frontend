@@ -1,5 +1,5 @@
-import installationsReducer from './slice';
+import itemsReducer from './slice';
 
 export * from './slice';
 
-export default installationsReducer;
+export default itemsReducer;

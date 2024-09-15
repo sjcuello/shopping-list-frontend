@@ -1,15 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { Card } from '../../interfaces';
-// import { createAppAsyncThunk } from '../thunk';
-
-type Status = 'idle' | 'pending' | 'succeeded' | 'rejected';
-
-interface ItemsState {
-  data: Card[];
-  status: Status
-  error: string | null
-}
+import { Card, ItemsState } from '../../interfaces';
 
 const defaultState: ItemsState = {
   data: [],

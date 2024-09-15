@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import { fetchData, selectItemList } from '../../redux/items';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+// import { fetchAllItems } from '../../redux/items/thunk';
 
 const CardsContainer = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
