@@ -2,20 +2,28 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { Card } from '../../interfaces';
 
+type Status = 'idle' | 'pending' | 'succeeded' | 'rejected';
+
+interface ItemsState {
+  data: Card[];
+  status: Status
+  error: string | null
+}
+
+const defaultState: ItemsState = {
+  data: [],
+  status: 'idle',
+  error: null
+}
+
 interface ItemsData {
-  itemList: Card[];
-  deletedList: Card[];
+  itemList: ItemsState
+  deletedList: ItemsState;
 }
 
 const initialState: ItemsData = {
-  itemList: [{
-    id: 0,
-    name: 'Prueba',
-    description: 'Descripcion de prueba',
-    amount: 0,
-    isChecked: false,
-  }],
-  deletedList: []
+  itemList: defaultState,
+  deletedList: defaultState
 };
 
 export const itemsSlice = createSlice({
@@ -30,11 +38,11 @@ export const itemsSlice = createSlice({
     },
     addItem: (state, action) => {
       const itemForm = action.payload;
-      const newItem: Card = { ...itemForm, id: state.itemList.length + 1, isChecked: false };
-      state.itemList.push(newItem);
+      const newItem: Card = { ...itemForm, id: state.itemList.data.length + 1, isChecked: false };
+      state.itemList.data.push(newItem);
     },
     updateItem: (state, action) => {
-      const itemToUpdate = state.itemList.find((item) => item.id === action.payload.id);
+      const itemToUpdate = state.itemList.data.find((item) => item.id === action.payload.id);
       if (itemToUpdate) {
         itemToUpdate.name = action.payload.name;
         itemToUpdate.description = action.payload.description;
@@ -43,21 +51,21 @@ export const itemsSlice = createSlice({
       }
     },
     deleteItem: (state, action) => {
-      const itemToDelete = state.itemList.find((item) => item.id === action.payload);
+      const itemToDelete = state.itemList.data.find((item) => item.id === action.payload);
       if (itemToDelete) {
-        state.deletedList.push(itemToDelete);
-        state.itemList = state.itemList.filter((item) => item.id !== action.payload);
+        state.deletedList.data.push(itemToDelete);
+        state.itemList.data = state.itemList.data.filter((item) => item.id !== action.payload);
       }
     },
     restoreItem: (state, action) => {
-      const itemToRestore = state.deletedList.find((item) => item.id === action.payload);
+      const itemToRestore = state.deletedList.data.find((item) => item.id === action.payload);
       if (itemToRestore) {
-        state.itemList.push(itemToRestore);
-        state.deletedList = state.deletedList.filter((item) => item.id !== action.payload);
+        state.itemList.data.push(itemToRestore);
+        state.deletedList.data = state.deletedList.data.filter((item) => item.id !== action.payload);
       }
     },
     checkItem: (state, action) => {
-      const itemToCheck = state.itemList.find((item) => item.id === action.payload);
+      const itemToCheck = state.itemList.data.find((item) => item.id === action.payload);
       if (itemToCheck) {
         itemToCheck.isChecked = !itemToCheck.isChecked;
       }
@@ -77,8 +85,8 @@ export const {
 
 export const selectItemList = (state: RootState) => state.items.itemList;
 export const selectDeletedList = (state: RootState) => state.items.deletedList;
-export const selectItemById = (state: RootState, id: number) => state.items.itemList.find((item) => item.id === id);
-export const selectDeletedItemById = (state: RootState, id: number) => state.items.deletedList.find((item) => item.id === id);
+export const selectItemById = (state: RootState, id: number) => state.items.itemList.data.find((item) => item.id === id);
+export const selectDeletedItemById = (state: RootState, id: number) => state.items.deletedList.data.find((item) => item.id === id);
 
 
 

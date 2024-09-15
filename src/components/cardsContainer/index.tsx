@@ -17,7 +17,7 @@ const CardsContainer = () => {
           className={styles.button}>Add Item</Button>
       </Box>
       <Box className={styles.cardContainer}>
-        {itemList.map((item, index) => (
+        {itemList.data.map((item, index) => (
           <CardItem key={index} data={item} />
         ))}
       </Box>
