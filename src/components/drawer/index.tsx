@@ -6,7 +6,7 @@ import { itemValidationSchema } from "../../validations/item.validation";
 import styles from './styles.module.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { useAppDispatch } from '../../redux';
-// import { ItemForm } from "../../interfaces";
+import { ItemForm } from "../../interfaces";
 import { addItem } from "../../redux/items";
 
 interface DrawerProps {
@@ -26,7 +26,7 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
       amount: 0,
     },
     validationSchema: itemValidationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values: ItemForm) => {
       dispatch(addItem(values));
     },
     onReset: handleDrawerToggle,
