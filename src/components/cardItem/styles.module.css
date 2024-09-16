@@ -1,13 +1,22 @@
 .card {
-  background-color: #F8FAFB;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
+  border: 1px solid #D5DFE9;
   padding: 1.5rem 1rem;
   border-radius: 4px;
   gap: 1.5rem
+}
+
+.cardChecked {
+  background-color: #F8FAFB;
+
+  h4,
+  h6 {
+    text-decoration: line-through;
+  }
 }
 
 .content {

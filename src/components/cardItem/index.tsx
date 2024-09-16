@@ -38,7 +38,7 @@ const CardItem = ({ data }: CardProps) => {
   }
 
   return (
-    <Box className={styles.card}>
+    <Box className={`${styles.card} ${isChecked && styles.cardChecked}`}>
       <IconButton
         color='info'
         aria-label="Edit"
