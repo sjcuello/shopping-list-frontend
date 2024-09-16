@@ -4,31 +4,44 @@ import Layout from './components/layout'
 import Navbar from './components/navbar'
 import {
   createBrowserRouter,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
+import TrashBin from './components/trashBin';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <CardsContainer />,
-  },
-  {
-    path: "/trash-bin",
-    element: <div>trash-bin</div>,
-  },
-  {
-    path: "*",
-    element: <ErrorPage />,
-  }
-]);
-
-
-function App() {
+const RootLayout = () => {
   return (
     <Layout>
       <Navbar />
-      <RouterProvider router={router} />
+      <Outlet />
     </Layout>
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      {
+        path: '/',
+        element: <CardsContainer />,
+      },
+      {
+        path: '/trash-bin',
+        element: <TrashBin />,
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return (
+    <RouterProvider router={router} />
   )
 }
 
