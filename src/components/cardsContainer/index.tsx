@@ -27,7 +27,7 @@ const CardsContainer = () => {
   return (
     <Box className={styles.container}>
       {
-        status === 'succeeded' && data.length > 0 ? (<>
+        status === 'succeeded' && data.length > 0 && data.some(item => !item.markAsDeleted) ? (<>
           <Box className={styles.titleContainer}>
             <Typography variant='h2'>Your Items</Typography>
             <Button
