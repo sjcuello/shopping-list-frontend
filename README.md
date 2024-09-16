@@ -1,4 +1,4 @@
-# Shopping List App 
+# Shopping List Frontend 
 
 This is a simple shopping list app that allows users to add, edit, and delete items from their shopping list.
 Design based on this [figma](https://www.figma.com/file/FP6nTXF1nqA9J5QFk0ieHi/DEMO-UI-TEST?node-id=0%3A1).
@@ -30,10 +30,12 @@ Design based on this [figma](https://www.figma.com/file/FP6nTXF1nqA9J5QFk0ieHi/D
 
 ## Technologies Used
 - React
+- TypeScript
+- Vite
 - Redux
 - Material-UI
 - React-Router
 - React-Redux
 - Redux-Thunk
 - CSS Modules
-- Vite
+- Yup
