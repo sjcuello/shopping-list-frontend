@@ -4,20 +4,23 @@ import {
   EditOutlined as EditIcon,
   DeleteOutlined as DeleteIcon,
   CheckBoxOutlineBlank as CheckBoxBlankIcon,
-  CheckBox as CheckBoxIcon
+  CheckBox as CheckBoxIcon,
+  DeleteForeverOutlined as DeleteForeverOutlinedIcon,
+  UndoOutlined as UndoOutlinedIcon
 } from '@mui/icons-material';
 import styles from './styles.module.css';
 import { useAppDispatch } from '../../redux';
-import { editItem } from '../../redux/items/thunk';
+import { editItem, removeItem } from '../../redux/items/thunk';
 import { setFullItem } from '../../redux/itemDrawer';
 import { switchDrawer } from '../../redux/drawer';
 import { useCallback } from 'react';
 
 interface CardProps {
   data: Card
+  isInTrashBin?: boolean
 }
 
-const CardItem = ({ data }: CardProps) => {
+const CardItem = ({ data, isInTrashBin }: CardProps) => {
 
   const { amount, description, isChecked, name } = data;
   const dispatch = useAppDispatch();
@@ -33,9 +36,13 @@ const CardItem = ({ data }: CardProps) => {
     dispatch(editItem(updatedItem));
   }, [data, isChecked, dispatch]);
 
-  const handleDelete = () => {
+  const handleSwitchMarkDelete = () => {
     const updatedItem = { ...data, markAsDeleted: !data.markAsDeleted };
     dispatch(editItem(updatedItem));
+  }
+
+  const handleDelete = () => {
+    dispatch(removeItem(data.id));
   }
 
   return (
@@ -55,22 +62,44 @@ const CardItem = ({ data }: CardProps) => {
           <Typography variant="body2" className={styles.amount}>Amount: {amount}</Typography>
         </Box>
         <Box>
-          <IconButton
-            color="default"
-            aria-label="Edit"
-            onClick={handleEdit}
-            className={styles.menuIcon}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            color="default"
-            aria-label="Delete"
-            onClick={handleDelete}
-            className={styles.menuIcon}
-          >
-            <DeleteIcon />
-          </IconButton>
+          {isInTrashBin ?
+            <>
+              <IconButton
+                color="default"
+                aria-label="Restore"
+                onClick={handleSwitchMarkDelete}
+                className={styles.menuIcon}
+              >
+                <UndoOutlinedIcon />
+              </IconButton>
+              <IconButton
+                color="default"
+                aria-label="Delete"
+                onClick={handleDelete}
+                className={styles.menuIcon}
+              >
+                <DeleteForeverOutlinedIcon />
+              </IconButton>
+            </> :
+            <>
+              <IconButton
+                color="default"
+                aria-label="Edit"
+                onClick={handleEdit}
+                className={styles.menuIcon}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                color="default"
+                aria-label="Delete"
+                onClick={handleSwitchMarkDelete}
+                className={styles.menuIcon}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </>
+          }
         </Box>
       </Box>
     </Box>
