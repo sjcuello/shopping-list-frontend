@@ -18,13 +18,18 @@ const CardItem = ({ data }: CardProps) => {
 
   const { amount, description, isChecked, name } = data;
   const dispatch = useAppDispatch();
+
   const handleEdit = () => { }
+
   const handleCheck = () => {
     const updatedItem = { ...data, isChecked: !isChecked };
     dispatch(editItem(updatedItem));
   }
 
-  const handleDelete = () => { }
+  const handleDelete = () => {
+    const updatedItem = { ...data, markAsDeleted: !data.markAsDeleted };
+    dispatch(editItem(updatedItem));
+  }
 
   return (
     <Box className={styles.card}>

@@ -36,9 +36,11 @@ const CardsContainer = () => {
               className={styles.button}>Add Item</Button>
           </Box>
           <Box className={styles.cardContainer}>
-            {data.map((item, index) => (
-              <CardItem key={index} data={item} />
-            ))}
+            {data.map((item, index) => {
+              if (!item.markAsDeleted) {
+                return <CardItem key={index} data={item} />;
+              }
+            })}
           </Box>
         </>
         ) : (
