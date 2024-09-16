@@ -76,7 +76,7 @@ export const itemsSlice = createSlice({
       })
       .addCase(thunk.addItem.rejected, (state, action) => {
         state.itemList.status = 'rejected';
-        state.itemList.error = action.error.message || 'Failed to add item';
+        state.itemList.data = state.itemList.data.filter((item) => item.id !== (action.payload as { id: number }).id);
       })
       .addCase(thunk.editItem.pending, (state) => {
         state.itemList.status = 'pending';

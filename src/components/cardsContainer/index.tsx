@@ -7,11 +7,12 @@ import { useEffect } from 'react';
 import { fetchAllItems } from '../../redux/items/thunk';
 import Loading from '../loading';
 import { switchDrawer } from '../../redux/drawer';
+import ListEmpty from '../listEmpty';
 
 const CardsContainer = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
-  const { data, status, error } = useSelector(selectItemList);
+  const { data, status } = useSelector(selectItemList);
 
   const handleDrawerToggle = () => {
     dispatch(switchDrawer());
@@ -22,12 +23,6 @@ const CardsContainer = () => {
       dispatch(fetchAllItems());
     }
   }, [status, dispatch]);
-
-  if (status === 'rejected') {
-    // TODO
-    return <div>Error: {error}</div>;
-  }
-
 
   return (
     <Box className={styles.container}>
@@ -50,9 +45,13 @@ const CardsContainer = () => {
             })}
           </Box>
         </>
-        ) : (
+        ) : status === 'pending' ? (
           <Loading />
-        )
+        ) : <ListEmpty
+          text="Your shopping list is empty :("
+          textButton="Add your first item"
+          handleClick={handleDrawerToggle}
+        />
       }
     </Box>
   )
