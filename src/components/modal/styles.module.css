@@ -1,0 +1,8 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 1rem;
+  min-height: 240px;
+  max-width: 410px;
+}
