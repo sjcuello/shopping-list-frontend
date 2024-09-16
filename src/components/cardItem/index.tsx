@@ -5,8 +5,8 @@ import {
   DeleteOutlined as DeleteIcon,
   CheckBoxOutlineBlank as CheckBoxBlankIcon,
   CheckBox as CheckBoxIcon,
-  DeleteForeverOutlined as DeleteForeverOutlinedIcon,
-  UndoOutlined as UndoOutlinedIcon
+  DeleteForeverOutlined as DeleteForeverIcon,
+  UndoOutlined as UndoIcon
 } from '@mui/icons-material';
 import styles from './styles.module.css';
 import { useAppDispatch } from '../../redux';
@@ -45,6 +45,16 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
     dispatch(removeItem(data.id));
   }
 
+  const actionButtons = isInTrashBin
+    ? [
+      { icon: <UndoIcon />, onClick: handleSwitchMarkDelete, label: 'Restore' },
+      { icon: <DeleteForeverIcon />, onClick: handleDelete, label: 'Delete Forever' }
+    ]
+    : [
+      { icon: <EditIcon />, onClick: handleEdit, label: 'Edit' },
+      { icon: <DeleteIcon />, onClick: handleSwitchMarkDelete, label: 'Mark as Deleted' }
+    ];
+
   return (
     <Box className={`${styles.card} ${isChecked && styles.cardChecked}`}>
       <IconButton
@@ -62,43 +72,18 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
           <Typography variant="body2" className={styles.amount}>Amount: {amount}</Typography>
         </Box>
         <Box>
-          {isInTrashBin ?
-            <>
+          {
+            actionButtons.map((button, index) => (
               <IconButton
+                key={index}
                 color="default"
-                aria-label="Restore"
-                onClick={handleSwitchMarkDelete}
+                aria-label={button.label}
+                onClick={button.onClick}
                 className={styles.menuIcon}
               >
-                <UndoOutlinedIcon />
+                {button.icon}
               </IconButton>
-              <IconButton
-                color="default"
-                aria-label="Delete"
-                onClick={handleDelete}
-                className={styles.menuIcon}
-              >
-                <DeleteForeverOutlinedIcon />
-              </IconButton>
-            </> :
-            <>
-              <IconButton
-                color="default"
-                aria-label="Edit"
-                onClick={handleEdit}
-                className={styles.menuIcon}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                color="default"
-                aria-label="Delete"
-                onClick={handleSwitchMarkDelete}
-                className={styles.menuIcon}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </>
+            ))
           }
         </Box>
       </Box>
