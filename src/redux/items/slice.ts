@@ -77,6 +77,7 @@ export const {
 
 export const selectItemList = (state: RootState) => state.items;
 export const selectItemById = (state: RootState, id: number) => state.items.data.find((item) => item.id === id);
+export const selectAllNames = (state: RootState) => state.items.data.map((item) => item.name);
 
 
 

@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { isItemDrawerEmpty, selectItemDrawer, setClear } from "../../redux/itemDrawer";
 import { useEffect } from "react";
 import { selectItemSelected } from "../../redux/itemSelected";
+import { selectAllNames } from "../../redux/items";
 
 const Drawer = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Drawer = () => {
   const itemDrawer = useSelector(selectItemDrawer);
   const isNewItem = useSelector(isItemDrawerEmpty);
   const itemSelected = useSelector(selectItemSelected);
+  const currentNames = useSelector(selectAllNames);
 
   const initialValues = isNewItem ? {
     name: '',
@@ -35,7 +37,7 @@ const Drawer = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: itemValidationSchema,
+    validationSchema: itemValidationSchema(isNewItem ? currentNames : currentNames.filter((name) => name !== itemDrawer.name)),
     onSubmit: (values: ItemForm) => {
       if (isNewItem) {
         dispatch(addItem(values));
