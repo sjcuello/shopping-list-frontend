@@ -1,4 +1,5 @@
 import { Button, Typography, Box } from '@mui/material';
+import styles from './styles.module.css';
 
 interface ListEmptyProps {
   text: string;
@@ -9,13 +10,15 @@ interface ListEmptyProps {
 const ListEmpty = ({ text, textButton, handleClick }: ListEmptyProps) => {
 
   return (
-    <Box>
-      <Typography variant="h6" gutterBottom>
-        {text}
-      </Typography>
-      <Button variant="contained" color="primary" onClick={handleClick}>
-        {textButton}
-      </Button>
+    <Box className={styles.container}>
+      <Box className={styles.frame}>
+        <Typography variant="h3">
+          {text}
+        </Typography>
+        <Button variant="contained" color="primary" onClick={handleClick}>
+          {textButton}
+        </Button>
+      </Box>
     </Box>
   );
 };
