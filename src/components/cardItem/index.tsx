@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { Card } from '../../interfaces';
 import {
   EditOutlined as EditIcon,
@@ -55,12 +55,12 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
 
   const actionButtons = isInTrashBin
     ? [
-      { icon: <UndoIcon />, onClick: handleSwitchMarkDelete, label: 'Restore' },
-      { icon: <DeleteForeverIcon />, onClick: () => setOpen(true), label: 'Delete Forever' }
+      { icon: <UndoIcon />, onClick: handleSwitchMarkDelete, label: 'Restore', tooltip: 'Restore' },
+      { icon: <DeleteForeverIcon />, onClick: () => setOpen(true), label: 'Delete Forever', tooltip: 'Delete Forever' }
     ]
     : [
-      { icon: <EditIcon />, onClick: handleEdit, label: 'Edit' },
-      { icon: <DeleteIcon />, onClick: handleSwitchMarkDelete, label: 'Mark as Deleted' }
+      { icon: <EditIcon />, onClick: handleEdit, label: 'Edit', tooltip: 'Edit' },
+      { icon: <DeleteIcon />, onClick: handleSwitchMarkDelete, label: 'Mark as Deleted', tooltip: 'Mark as Deleted' }
     ];
 
   return (
@@ -89,7 +89,9 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
                 onClick={button.onClick}
                 className={styles.menuIcon}
               >
-                {button.icon}
+                <Tooltip title={button.tooltip} arrow>
+                  {button.icon}
+                </Tooltip>
               </IconButton>
             ))
           }
