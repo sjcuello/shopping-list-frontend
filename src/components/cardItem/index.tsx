@@ -11,6 +11,7 @@ import { useAppDispatch } from '../../redux';
 import { editItem } from '../../redux/items/thunk';
 import { setFullItem } from '../../redux/itemDrawer';
 import { switchDrawer } from '../../redux/drawer';
+import { useCallback } from 'react';
 
 interface CardProps {
   data: Card
@@ -27,10 +28,10 @@ const CardItem = ({ data }: CardProps) => {
     dispatch(switchDrawer());
   }
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const updatedItem = { ...data, isChecked: !isChecked };
     dispatch(editItem(updatedItem));
-  }
+  }, [data, isChecked, dispatch]);
 
   const handleDelete = () => {
     const updatedItem = { ...data, markAsDeleted: !data.markAsDeleted };
