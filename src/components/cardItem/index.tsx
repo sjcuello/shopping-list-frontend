@@ -13,7 +13,8 @@ import { useAppDispatch } from '../../redux';
 import { editItem, removeItem } from '../../redux/items/thunk';
 import { setFullItem } from '../../redux/itemDrawer';
 import { switchDrawer } from '../../redux/drawer';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import Modal from '../modal';
 
 interface CardProps {
   data: Card
@@ -22,6 +23,7 @@ interface CardProps {
 
 const CardItem = ({ data, isInTrashBin }: CardProps) => {
 
+  const [open, setOpen] = useState(false);
   const { amount, description, isChecked, name } = data;
   const dispatch = useAppDispatch();
 
@@ -48,7 +50,7 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
   const actionButtons = isInTrashBin
     ? [
       { icon: <UndoIcon />, onClick: handleSwitchMarkDelete, label: 'Restore' },
-      { icon: <DeleteForeverIcon />, onClick: handleDelete, label: 'Delete Forever' }
+      { icon: <DeleteForeverIcon />, onClick: () => setOpen(true), label: 'Delete Forever' }
     ]
     : [
       { icon: <EditIcon />, onClick: handleEdit, label: 'Edit' },
@@ -87,6 +89,7 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
           }
         </Box>
       </Box>
+      <Modal open={open} handleClose={() => setOpen(false)} handleConfirm={handleDelete} />
     </Box>
   )
 }
