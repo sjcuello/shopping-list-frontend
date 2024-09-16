@@ -7,12 +7,14 @@ import { useEffect } from 'react';
 import { fetchAllItems } from '../../redux/items/thunk';
 import Loading from '../loading';
 import { switchDrawer } from '../../redux/drawer';
+import ListEmpty from '../listEmpty';
+import { useNavigate } from 'react-router-dom';
 
 const TrashBin = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { data, status } = useSelector(selectItemList);
-
+  const navigate = useNavigate();
   const handleDrawerToggle = () => {
     dispatch(switchDrawer());
   };
@@ -23,11 +25,10 @@ const TrashBin = () => {
     }
   }, [status, dispatch]);
 
-
   return (
     <Box className={styles.container}>
       {
-        status === 'succeeded' && data.length > 0 ? (<>
+        status === 'succeeded' && data.length > 0 && data.some(item => item.markAsDeleted) ? (<>
           <Box className={styles.titleContainer}>
             <Typography variant='h2'>Trash Bin</Typography>
             <Button
@@ -45,9 +46,13 @@ const TrashBin = () => {
             })}
           </Box>
         </>
-        ) : (
+        ) : status === 'pending' ? (
           <Loading />
-        )
+        ) : <ListEmpty
+          text="Your trash bin is empty :)"
+          textButton="Back to Home"
+          handleClick={() => navigate('/')}
+        />
       }
     </Box>
   )

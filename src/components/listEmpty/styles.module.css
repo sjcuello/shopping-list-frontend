@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 70vh;
+  width: 100%;
+}
+
+.frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 4px;
+  height: 50%;
+  width: 50%;
+  gap: 2rem;
+  color: #87898C;
+  border: 1px solid #D5DFE9;
+}
