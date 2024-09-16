@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CardItem from '../cardItem';
 import styles from './styles.module.css';
 import { selectItemList } from '../../redux/items';
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAllItems } from '../../redux/items/thunk';
 import Loading from '../loading';
-import { switchDrawer } from '../../redux/drawer';
 import ListEmpty from '../listEmpty';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,9 +14,6 @@ const TrashBin = () => {
   const dispatch = useDispatch<any>();
   const { data, status } = useSelector(selectItemList);
   const navigate = useNavigate();
-  const handleDrawerToggle = () => {
-    dispatch(switchDrawer());
-  };
 
   useEffect(() => {
     if (status === 'idle') {
@@ -31,12 +27,6 @@ const TrashBin = () => {
         status === 'succeeded' && data.length > 0 && data.some(item => item.markAsDeleted) ? (<>
           <Box className={styles.titleContainer}>
             <Typography variant='h2'>Trash Bin</Typography>
-            <Button
-              variant="contained"
-              color='primary'
-              className={styles.button}
-              onClick={handleDrawerToggle}
-            >Add Item</Button>
           </Box>
           <Box className={styles.cardContainer}>
             {data.map((item, index) => {

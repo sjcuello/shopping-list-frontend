@@ -11,7 +11,7 @@ export const itemDrawerSlice = createSlice({
   name: 'itemDrawer',
   initialState,
   reducers: {
-    setFullItem: (state, action) => {
+    setItemDrawer: (state, action) => {
       state.name = action.payload.name;
       state.description = action.payload.description;
       state.amount = action.payload.amount
@@ -33,7 +33,7 @@ export const {
   setName,
   setDescription,
   setAmount,
-  setFullItem,
+  setItemDrawer,
   setClear
 } = itemDrawerSlice.actions;
 
