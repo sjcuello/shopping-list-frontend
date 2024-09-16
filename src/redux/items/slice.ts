@@ -29,15 +29,6 @@ export const itemsSlice = createSlice({
     setDeletedList: (state, action) => {
       state.deletedList = action.payload;
     },
-    // updateItem: (state, action) => {
-    //   const itemToUpdate = state.itemList.data.find((item) => item.id === action.payload.id);
-    //   if (itemToUpdate) {
-    //     itemToUpdate.name = action.payload.name;
-    //     itemToUpdate.description = action.payload.description;
-    //     itemToUpdate.amount = action.payload.amount;
-    //     itemToUpdate.isChecked = action.payload.isChecked;
-    //   }
-    // },
     deleteItem: (state, action) => {
       const itemToDelete = state.itemList.data.find((item) => item.id === action.payload);
       if (itemToDelete) {
@@ -109,7 +100,6 @@ export const itemsSlice = createSlice({
 export const {
   setItemList,
   setDeletedList,
-  // updateItem,
   deleteItem,
   restoreItem,
   checkItem
