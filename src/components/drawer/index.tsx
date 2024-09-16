@@ -8,14 +8,16 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import { useAppDispatch } from '../../redux';
 import { ItemForm } from "../../interfaces";
 import { addItem } from '../../redux/items/thunk';
-interface DrawerProps {
-  isDrawerOpen: boolean;
-  handleDrawerToggle: () => void;
-}
+import { selectDrawer, switchDrawer } from "../../redux/drawer";
+import { useSelector } from "react-redux";
 
-const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
-
+const Drawer = () => {
   const dispatch = useAppDispatch();
+  const handleDrawerToggle = () => {
+    dispatch(switchDrawer());
+  };
+
+  const isDrawerOpen = useSelector(selectDrawer);
   const range = Array.from({ length: 10 }, (_, i) => i + 1);
 
   const formik = useFormik({

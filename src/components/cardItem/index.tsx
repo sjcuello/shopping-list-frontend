@@ -9,6 +9,7 @@ import {
 import styles from './styles.module.css';
 import { useAppDispatch } from '../../redux';
 import { editItem } from '../../redux/items/thunk';
+import { setFullItem } from '../../redux/itemDrawer';
 
 interface CardProps {
   data: Card
@@ -19,7 +20,9 @@ const CardItem = ({ data }: CardProps) => {
   const { amount, description, isChecked, name } = data;
   const dispatch = useAppDispatch();
 
-  const handleEdit = () => { }
+  const handleEdit = () => {
+    dispatch(setFullItem(data));
+  }
 
   const handleCheck = () => {
     const updatedItem = { ...data, isChecked: !isChecked };

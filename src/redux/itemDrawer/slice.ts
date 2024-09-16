@@ -33,6 +33,8 @@ export const {
   setName,
   setDescription,
   setAmount,
+  setFullItem,
+  setClear
 } = itemDrawerSlice.actions;
 
 export const selectItemDrawer = (state: { itemDrawer: ItemForm; }) => state.itemDrawer;

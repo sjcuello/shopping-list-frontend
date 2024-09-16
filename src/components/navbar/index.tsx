@@ -1,15 +1,15 @@
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import { useState } from 'react';
+// import { useState } from 'react';
 import styles from './styles.module.css';
 import Drawer from '../drawer';
+import { useAppDispatch } from '../../redux';
+import { switchDrawer } from '../../redux/drawer';
 
 const Navbar: React.FC = () => {
-
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
   const handleDrawerToggle = () => {
-    setIsDrawerOpen((prevState) => !prevState);
+    dispatch(switchDrawer());
   };
 
   return (
@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer isDrawerOpen={isDrawerOpen} handleDrawerToggle={handleDrawerToggle} />
+      <Drawer />
     </Box>
   )
 }
