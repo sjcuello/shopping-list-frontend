@@ -12,6 +12,7 @@
 
 .cardChecked {
   background-color: #F8FAFB;
+  border: none;
 
   h4,
   h6 {
