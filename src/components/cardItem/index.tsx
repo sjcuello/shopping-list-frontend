@@ -16,6 +16,8 @@ import { switchDrawer } from '../../redux/drawer';
 import { useCallback, useState } from 'react';
 import Modal from '../modal';
 import { setItemSelected } from '../../redux/itemSelected';
+import { deleteItemList } from '../../redux/items';
+
 
 interface CardProps {
   data: Card
@@ -47,6 +49,8 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
 
   const handleDelete = () => {
     dispatch(removeItem(data.id));
+    dispatch(deleteItemList(data.id));
+    setOpen(false)
   }
 
   const actionButtons = isInTrashBin
