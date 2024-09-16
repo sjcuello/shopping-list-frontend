@@ -16,6 +16,9 @@ export const itemsSlice = createSlice({
     setItemList: (state, action) => {
       state.data = action.payload;
     },
+    deleteItemList: (state, action) => {
+      state.data = state.data.filter((item) => item.id !== action.payload);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -73,6 +76,7 @@ export const itemsSlice = createSlice({
 
 export const {
   setItemList,
+  deleteItemList
 } = itemsSlice.actions;
 
 export const selectItemList = (state: RootState) => state.items;
