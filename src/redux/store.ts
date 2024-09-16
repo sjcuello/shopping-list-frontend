@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import itemsReducer from './items';
+import itemDrawerReducer from './itemDrawer';
 
 const rootReducer = combineReducers({
-  items: itemsReducer
+  items: itemsReducer,
+  itemDrawer: itemDrawerReducer,
 });
 
 const store = configureStore({
