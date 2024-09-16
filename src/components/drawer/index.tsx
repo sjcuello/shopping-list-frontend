@@ -7,11 +7,12 @@ import styles from './styles.module.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { useAppDispatch } from '../../redux';
 import { ItemForm } from "../../interfaces";
-import { addItem } from '../../redux/items/thunk';
+import { addItem, editItem } from '../../redux/items/thunk';
 import { selectDrawer, switchDrawer } from "../../redux/drawer";
 import { useSelector } from "react-redux";
 import { isItemDrawerEmpty, selectItemDrawer, setClear } from "../../redux/itemDrawer";
 import { useEffect } from "react";
+import { selectItemSelected } from "../../redux/itemSelected";
 
 const Drawer = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const Drawer = () => {
   const isDrawerOpen = useSelector(selectDrawer);
   const itemDrawer = useSelector(selectItemDrawer);
   const isNewItem = useSelector(isItemDrawerEmpty);
+  const itemSelected = useSelector(selectItemSelected);
 
   const initialValues = isNewItem ? {
     name: '',
@@ -35,7 +37,12 @@ const Drawer = () => {
     initialValues,
     validationSchema: itemValidationSchema,
     onSubmit: (values: ItemForm) => {
-      dispatch(addItem(values));
+      if (isNewItem) {
+        dispatch(addItem(values));
+      } else {
+        const updatedItem = { ...itemSelected, ...values };
+        dispatch(editItem(updatedItem));
+      }
       formik.resetForm();
       handleDrawerToggle()
     },

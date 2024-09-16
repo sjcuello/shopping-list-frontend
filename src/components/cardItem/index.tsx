@@ -11,10 +11,11 @@ import {
 import styles from './styles.module.css';
 import { useAppDispatch } from '../../redux';
 import { editItem, removeItem } from '../../redux/items/thunk';
-import { setFullItem } from '../../redux/itemDrawer';
+import { setItemDrawer } from '../../redux/itemDrawer';
 import { switchDrawer } from '../../redux/drawer';
 import { useCallback, useState } from 'react';
 import Modal from '../modal';
+import { setItemSelected } from '../../redux/itemSelected';
 
 interface CardProps {
   data: Card
@@ -29,7 +30,8 @@ const CardItem = ({ data, isInTrashBin }: CardProps) => {
 
   const handleEdit = () => {
     const { name, description, amount } = data
-    dispatch(setFullItem({ name, description, amount }));
+    dispatch(setItemSelected(data));
+    dispatch(setItemDrawer({ name, description, amount }));
     dispatch(switchDrawer());
   }
 
