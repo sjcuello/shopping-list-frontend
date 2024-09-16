@@ -49,7 +49,7 @@ const Drawer = () => {
     if (!isNewItem && itemDrawer) {
       formik.setValues(itemDrawer);
     }
-  }, [itemDrawer]);
+  }, [isNewItem, itemDrawer]);
 
 
   const container = window !== undefined ? () => window.document.body : undefined;
