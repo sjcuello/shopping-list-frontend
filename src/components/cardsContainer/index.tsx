@@ -6,11 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAllItems } from '../../redux/items/thunk';
 import Loading from '../loading';
+import { switchDrawer } from '../../redux/drawer';
 
 const CardsContainer = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>();
   const { data, status, error } = useSelector(selectItemList);
+
+  const handleDrawerToggle = () => {
+    dispatch(switchDrawer());
+  };
 
   useEffect(() => {
     if (status === 'idle') {
@@ -33,7 +38,9 @@ const CardsContainer = () => {
             <Button
               variant="contained"
               color='primary'
-              className={styles.button}>Add Item</Button>
+              className={styles.button}
+              onClick={handleDrawerToggle}
+            >Add Item</Button>
           </Box>
           <Box className={styles.cardContainer}>
             {data.map((item, index) => {

@@ -38,6 +38,10 @@ export const {
 } = itemDrawerSlice.actions;
 
 export const selectItemDrawer = (state: { itemDrawer: ItemForm; }) => state.itemDrawer;
+export const isItemDrawerEmpty = (state: { itemDrawer: ItemForm; }) => {
+  const { name, description, amount } = state.itemDrawer;
+  return !name && !description && !amount;
+}
 
 
 export default itemDrawerSlice.reducer;

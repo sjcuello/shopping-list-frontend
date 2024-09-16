@@ -10,6 +10,7 @@ import styles from './styles.module.css';
 import { useAppDispatch } from '../../redux';
 import { editItem } from '../../redux/items/thunk';
 import { setFullItem } from '../../redux/itemDrawer';
+import { switchDrawer } from '../../redux/drawer';
 
 interface CardProps {
   data: Card
@@ -21,7 +22,9 @@ const CardItem = ({ data }: CardProps) => {
   const dispatch = useAppDispatch();
 
   const handleEdit = () => {
-    dispatch(setFullItem(data));
+    const { name, description, amount } = data
+    dispatch(setFullItem({ name, description, amount }));
+    dispatch(switchDrawer());
   }
 
   const handleCheck = () => {

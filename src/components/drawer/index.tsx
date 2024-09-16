@@ -10,22 +10,29 @@ import { ItemForm } from "../../interfaces";
 import { addItem } from '../../redux/items/thunk';
 import { selectDrawer, switchDrawer } from "../../redux/drawer";
 import { useSelector } from "react-redux";
+import { isItemDrawerEmpty, selectItemDrawer, setClear } from "../../redux/itemDrawer";
+import { useEffect } from "react";
 
 const Drawer = () => {
   const dispatch = useAppDispatch();
   const handleDrawerToggle = () => {
     dispatch(switchDrawer());
+    dispatch(setClear());
   };
 
   const isDrawerOpen = useSelector(selectDrawer);
+  const itemDrawer = useSelector(selectItemDrawer);
+  const isNewItem = useSelector(isItemDrawerEmpty);
+
+  const initialValues = isNewItem ? {
+    name: '',
+    description: '',
+    amount: 0
+  } : itemDrawer;
   const range = Array.from({ length: 10 }, (_, i) => i + 1);
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      amount: 0,
-    },
+    initialValues,
     validationSchema: itemValidationSchema,
     onSubmit: (values: ItemForm) => {
       dispatch(addItem(values));
@@ -34,6 +41,16 @@ const Drawer = () => {
     },
     onReset: handleDrawerToggle,
   });
+
+  useEffect(() => {
+    if (isNewItem) {
+      dispatch(setClear());
+    }
+    if (!isNewItem && itemDrawer) {
+      formik.setValues(itemDrawer);
+    }
+  }, [itemDrawer]);
+
 
   const container = window !== undefined ? () => window.document.body : undefined;
 
