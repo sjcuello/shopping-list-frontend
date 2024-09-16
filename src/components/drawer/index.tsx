@@ -1,32 +1,56 @@
-import { Box, Button, Divider, Drawer as DrawerMUI, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, Divider, Drawer as DrawerMUI, FormHelperText, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material"
 import Textarea from '@mui/joy/Textarea';
 import StartIcon from '@mui/icons-material/Start';
 import { useFormik } from 'formik';
 import { itemValidationSchema } from "../../validations/item.validation";
 import styles from './styles.module.css';
 import { CssVarsProvider } from '@mui/joy/styles';
+import { useAppDispatch } from '../../redux';
+import { ItemForm } from "../../interfaces";
+import { addItem } from '../../redux/items/thunk';
+import { selectDrawer, switchDrawer } from "../../redux/drawer";
+import { useSelector } from "react-redux";
+import { isItemDrawerEmpty, selectItemDrawer, setClear } from "../../redux/itemDrawer";
+import { useEffect } from "react";
 
-interface DrawerProps {
-  isDrawerOpen: boolean;
-  handleDrawerToggle: () => void;
-}
+const Drawer = () => {
+  const dispatch = useAppDispatch();
+  const handleDrawerToggle = () => {
+    dispatch(switchDrawer());
+    dispatch(setClear());
+  };
 
-const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
+  const isDrawerOpen = useSelector(selectDrawer);
+  const itemDrawer = useSelector(selectItemDrawer);
+  const isNewItem = useSelector(isItemDrawerEmpty);
 
+  const initialValues = isNewItem ? {
+    name: '',
+    description: '',
+    amount: 0
+  } : itemDrawer;
   const range = Array.from({ length: 10 }, (_, i) => i + 1);
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      elements: 0,
-    },
+    initialValues,
     validationSchema: itemValidationSchema,
-    onSubmit: (values) => {
-      console.log('values :>> ', values); // TODO: send to API
+    onSubmit: (values: ItemForm) => {
+      dispatch(addItem(values));
+      formik.resetForm();
+      handleDrawerToggle()
     },
-    onReset: handleDrawerToggle
+    onReset: handleDrawerToggle,
   });
+
+  useEffect(() => {
+    if (isNewItem) {
+      dispatch(setClear());
+    }
+    if (!isNewItem && itemDrawer) {
+      formik.setValues(itemDrawer);
+    }
+  }, [isNewItem, itemDrawer]);
+
 
   const container = window !== undefined ? () => window.document.body : undefined;
 
@@ -67,66 +91,72 @@ const Drawer = ({ isDrawerOpen, handleDrawerToggle }: DrawerProps) => {
               Add your new item bellow
             </Typography>
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset} className={styles.form}>
-              <TextField
-                fullWidth
-                id="name"
-                name="name"
-                label="Item Name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-              <CssVarsProvider>
-                <Textarea
-                  id="description"
-                  name="description"
-                  minRows={2}
-                  size="lg"
-                  variant="outlined"
-                  value={formik.values.description}
+              <Box className={styles.formInputs}>
+                <TextField
+                  fullWidth
+                  id="name"
+                  name="name"
+                  label="Item Name"
+                  value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  placeholder="Description"
-                  endDecorator={
-                    <p>
-                      {formik.values.description.length} /100
-                    </p>
-                  }
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                 />
-              </CssVarsProvider>
-              <Select
-                id="elements"
-                name="elements"
-                value={formik.values.elements}
-                onChange={formik.handleChange}
-                label="Select a Number"
-                placeholder="How many elements?"
-              >
-                <MenuItem value={0}>0</MenuItem>
-                {range.map((number) => (
-                  <MenuItem key={number} value={number}>
-                    {number}
-                  </MenuItem>
-                ))}
-              </Select>
+                <CssVarsProvider>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    minRows={4}
+                    size="lg"
+                    variant="outlined"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    placeholder="Description"
+                    endDecorator={
+                      <Box className={styles.charCounter}>
+                        <p>
+                          {formik.values.description.length} /100
+                        </p>
+                      </Box>
+                    }
+                  />
+                </CssVarsProvider>
+                <Box className={styles.amountSelect}>
+                  <Select
+                    id="amount"
+                    name="amount"
+                    value={formik.values.amount}
+                    onChange={formik.handleChange}
+                    label="Select a Number"
+                    placeholder="How many items?"
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.amount && Boolean(formik.errors.amount)}
+                    style={{ width: '100%' }}
+                  >
+                    <MenuItem value={0}>0</MenuItem>
+                    {range.map((number) => (
+                      <MenuItem key={number} value={number}>
+                        {number}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {formik.touched.amount && formik.errors.amount && <FormHelperText error>{formik.errors.amount}</FormHelperText>}
+                </Box>
+              </Box>
+              <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
+                <Button color="inherit" variant="text" type="reset">
+                  Cancel
+                </Button>
+                <Button color="primary" variant="contained" type="submit">
+                  Add new item
+                </Button>
+              </Box>
             </form>
           </Box>
-
-          <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
-            <Button color="inherit" variant="text" type="reset">
-              Cancel
-            </Button>
-            <Button color="primary" variant="contained" type="submit">
-              Add new item
-            </Button>
-
-          </Box>
-
         </Box>
-
       </Box>
     </DrawerMUI >
   )

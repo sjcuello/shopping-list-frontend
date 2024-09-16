@@ -7,6 +7,10 @@ import {
   CheckBox as CheckBoxIcon
 } from '@mui/icons-material';
 import styles from './styles.module.css';
+import { useAppDispatch } from '../../redux';
+import { editItem } from '../../redux/items/thunk';
+import { setFullItem } from '../../redux/itemDrawer';
+import { switchDrawer } from '../../redux/drawer';
 
 interface CardProps {
   data: Card
@@ -15,17 +19,30 @@ interface CardProps {
 const CardItem = ({ data }: CardProps) => {
 
   const { amount, description, isChecked, name } = data;
+  const dispatch = useAppDispatch();
 
-  const handleEdit = () => { }
+  const handleEdit = () => {
+    const { name, description, amount } = data
+    dispatch(setFullItem({ name, description, amount }));
+    dispatch(switchDrawer());
+  }
 
-  const handleDelete = () => { }
+  const handleCheck = () => {
+    const updatedItem = { ...data, isChecked: !isChecked };
+    dispatch(editItem(updatedItem));
+  }
+
+  const handleDelete = () => {
+    const updatedItem = { ...data, markAsDeleted: !data.markAsDeleted };
+    dispatch(editItem(updatedItem));
+  }
 
   return (
     <Box className={styles.card}>
       <IconButton
         color='info'
         aria-label="Edit"
-        onClick={handleEdit}
+        onClick={handleCheck}
         className={styles.menuIcon}
       >
         {isChecked ? <CheckBoxIcon /> : <CheckBoxBlankIcon />}

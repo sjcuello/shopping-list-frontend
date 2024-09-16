@@ -8,3 +8,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.boxed-content {
+  padding-left: calc(50vw - 640px) !important;
+  padding-right: calc(50vw - 640px) !important;
+}
+
+@media (min-width: 500px) and (max-width: 1023px) {
+  .boxed-content {
+    padding-left: calc(50vw - 250px) !important;
+    padding-right: calc(50vw - 250px) !important;
+  }
+}
