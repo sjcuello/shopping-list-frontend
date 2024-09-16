@@ -94,6 +94,17 @@ export const itemsSlice = createSlice({
         state.itemList.status = 'rejected';
         state.itemList.error = action.error.message || 'Failed to edit item';
       })
+      .addCase(thunk.removeItem.pending, (state) => {
+        state.itemList.status = 'pending';
+      })
+      .addCase(thunk.removeItem.fulfilled, (state, action) => {
+        state.itemList.status = 'succeeded';
+        state.itemList.data = state.itemList.data.filter((item) => item.id !== action.payload);
+      })
+      .addCase(thunk.removeItem.rejected, (state, action) => {
+        state.itemList.status = 'rejected';
+        state.itemList.error = action.error.message || 'Failed to remove item';
+      })
   },
 });
 
