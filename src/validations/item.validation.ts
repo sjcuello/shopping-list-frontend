@@ -13,4 +13,6 @@ export const itemValidationSchema = (excludedNames: string[]) =>
       .number()
       .moreThan(0, 'Number of elements must be greater than 0')
       .required('Number of elements is required'),
+    date: yup
+      .date()
   });

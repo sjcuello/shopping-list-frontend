@@ -14,6 +14,7 @@ import { isItemDrawerEmpty, selectItemDrawer, setClear } from "../../redux/itemD
 import { useEffect } from "react";
 import { selectItemSelected } from "../../redux/itemSelected";
 import { selectAllNames } from "../../redux/items";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const Drawer = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,8 @@ const Drawer = () => {
   const initialValues = isNewItem ? {
     name: '',
     description: '',
-    amount: 0
+    amount: 0,
+    date: new Date(),
   } : itemDrawer;
   const range = Array.from({ length: 10 }, (_, i) => i + 1);
 
@@ -39,6 +41,7 @@ const Drawer = () => {
     initialValues,
     validationSchema: itemValidationSchema(isNewItem ? currentNames : currentNames.filter((name) => name !== itemDrawer.name)),
     onSubmit: (values: ItemForm) => {
+      console.log('values', values)
       if (isNewItem) {
         dispatch(addItem(values));
       } else {
@@ -154,6 +157,11 @@ const Drawer = () => {
                   </Select>
                   {formik.touched.amount && formik.errors.amount && <FormHelperText error>{formik.errors.amount}</FormHelperText>}
                 </Box>
+                <DatePicker
+                  name="date"
+                  label="Select a Date"
+                  onChange={(date) => formik.setFieldValue('date', date)}
+                />
               </Box>
               <Box className={`${styles.buttonContainer} ${styles.basicYPadding}`}>
                 <Button color="inherit" variant="text" type="reset">

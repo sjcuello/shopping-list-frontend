@@ -5,6 +5,7 @@ export interface Card {
   name: string;
   description: string;
   amount: number;
+  date?: Date;
   isChecked: boolean;
   markAsDeleted: boolean;
 }
@@ -13,6 +14,7 @@ export interface ItemForm {
   name: string;
   description: string;
   amount: number;
+  date?: Date;
 }
 
 export interface ItemsState {
